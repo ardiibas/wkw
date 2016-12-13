@@ -11,7 +11,8 @@
 
     public function readAllPembelian()
     {
-      $query = "Select * from detail_pembelian";
+      $query = "SELECT dp.no_pembelian, pk.merk as pupuk, sp.nama as supplier, dp.jumlah, dp.harga_beli FROM detail_pembelian dp JOIN pupuk pk ON dp.id_pupuk = pk.id_pupuk JOIN pembelian p ON p.id_pembelian = dp.id_pembelian JOIN suppliers sp
+ON sp.id_supplier = p.id_supplier";
       return $this->db->getRows($query);
     }
 
