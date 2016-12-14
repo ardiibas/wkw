@@ -1,3 +1,18 @@
+<?php
+
+require_once('lib/DBPupuk.php');
+require_once('lib/db_penjual.php');
+
+$pen = new Penjual();
+
+if (isset($_POST['kirim'])) {
+	if (!empty($_POST['no']) && !empty($_POST['idpuk']) && !empty($_POST['idpen']) && !empty($_POST['jum']) && !empty($_POST['harj'])) {
+		$tambah = $pen->createPenjualan($_POST['no'], $_POST['idpuk'], $_POST['idpen'], $_POST['jum'], $_POST['harj']);
+	}
+}
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,49 +69,47 @@
 			</div>
 		</form>
 		<ul class="nav menu">
-			<li><a href="index.php"><svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg>Pembelian</a></li>
+			<li><a href="pembelian.php"><svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg>Pembelian</a></li>
 			<li class="active"><a href="penjualan.php"><svg class="glyph stroked basket "><use xlink:href="#stroked-basket"/></svg>Penjualan</a></li>
-			<li role="presentation" class="divider"></li>
 			<li><a href="lol.php"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Login Page</a></li>
 		</ul>
 
 	</div><!--/.sidebar-->
 
-		<div class="row">
-			<div class="col-lg-12">
-				<h1 class="page-header">Tambah Penjualan</h1>
-			</div>
-		</div><!--/.row-->
-
-		<div class="panel-body">
-			<div class="col-xs-pull-0">
-				<form role="form">
-					<div class="form-group">
-						<label>No. Penjualan</label>
-						<input class="form-control" >
-					</div>
-					<div class="form-group">
-						<label>Id Pupuk</label>
-						<input class="form-control" >
-					</div>
-					<div class="form-group">
-						<label>Id Penjual</label>
-						<input class="form-control" >
-					</div>
-					<div class="form-group">
-						<label>Jumlah</label>
-						<input class="form-control" >
-					</div>
-					<div class="form-group">
-						<label>Harga</label>
-						<input class="form-control" >
-					</div>
-				</form>
-			</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<h1 class="page-header">Tambah Data Penjualan</h1>
 		</div>
+	</div><!--/.row-->
 
-		<button type="submit" class="btn btn-primary">Submit</button>
-		<button type="reset" class="btn btn-default">Reset</button>
+	<div class="panel-body">
+		<div class="col-xs-pull-0">
+			<form role="form" action="tpenjualan.php" method="post">
+				<div class="form-group">
+					<label>No. Penjual</label>
+					<input class="form-control" type="text" name="no">
+				</div>
+				<div class="form-group">
+					<label>Id Pupuk</label>
+					<input class="form-control" type="text" name="idpuk">
+				</div>
+				<div class="form-group">
+					<label>Id Penjual</label>
+					<input class="form-control" type="text" name="idpen">
+				</div>
+				<div class="form-group">
+					<label>Jumlah</label>
+					<input class="form-control" type="text" name="jum">
+				</div>
+				<div class="form-group">
+					<label>Harga</label>
+					<input class="form-control" type="text" name="harj">
+				</div>
+				<button type="submit" name="kirim" class="btn btn-primary">Submit</button>
+				<button type="reset" class="btn btn-default">Reset</button>
+			</form>
+		</div>
+	</div>
 
 	</div><!--/.main-->
 

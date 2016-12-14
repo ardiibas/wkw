@@ -2,14 +2,13 @@
 
 require_once('lib/DBPupuk.php');
 require_once('lib/db_pembeli.php');
-// error_reporting(1);
+
 $pem = new Pembeli();
 
 if (isset($_POST['kirim'])) {
 	if (!empty($_POST['no']) && !empty($_POST['idpuk']) && !empty($_POST['idpem']) && !empty($_POST['jum']) && !empty($_POST['harb'])) {
 		$tambah = $pem->createPembelian($_POST['no'], $_POST['idpuk'], $_POST['idpem'], $_POST['jum'], $_POST['harb']);
 	}
-	//echo "data siswa berhasil ditambahkan <br /> <br />";
 }
 
 ?>
@@ -82,7 +81,7 @@ if (isset($_POST['kirim'])) {
 
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Tambah Pembelian</h1>
+				<h1 class="page-header">Tambah Data Pembelian</h1>
 			</div>
 		</div><!--/.row-->
 

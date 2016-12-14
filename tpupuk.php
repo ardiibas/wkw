@@ -1,3 +1,18 @@
+<?php
+
+require_once('lib/DBPupuk.php');
+require_once('lib/db_pupuk.php');
+
+$puk = new Pupuk();
+
+if (isset($_POST['kirim'])) {
+	if (!empty($_POST['id']) && !empty($_POST['merk']) && !empty($_POST['stk'])) {
+		$tambah = $puk->createPupuk($_POST['id'], $_POST['merk'], $_POST['stk']);
+	}
+}
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -72,33 +87,24 @@
 
 		<div class="panel-body">
 			<div class="col-xs-pull-0">
-				<form role="form">
+				<form role="form" action="tpupuk.php" method="post">
 					<div class="form-group">
 						<label>Id Pupuk</label>
-						<input class="form-control" >
+						<input class="form-control" type="text" name="id">
 					</div>
 					<div class="form-group">
 						<label>Merek</label>
-						<input class="form-control" >
-					</div>
-					<div class="form-group">
-						<label>Jenis Pupuk</label>
-						<input class="form-control" >
-					</div>
-					<div class="form-group">
-						<label>Kategori</label>
-						<input class="form-control" >
+						<input class="form-control" type="text" name="merk">
 					</div>
 					<div class="form-group">
 						<label>Stock</label>
-						<input class="form-control" >
+						<input class="form-control" type="text" name="stk">
 					</div>
+					<button type="submit" name="kirim" class="btn btn-primary">Submit</button>
+					<button type="reset" class="btn btn-default">Reset</button>
 				</form>
 			</div>
 		</div>
-
-		<button type="submit" class="btn btn-primary">Submit</button>
-		<button type="reset" class="btn btn-default">Reset</button>
 
 	</div><!--/.main-->
 

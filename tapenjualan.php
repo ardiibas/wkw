@@ -1,3 +1,18 @@
+<?php
+
+require_once('lib/DBPupuk.php');
+require_once('lib/db_penjual.php');
+
+$pen = new Penjual();
+
+if (isset($_POST['kirim'])) {
+	if (!empty($_POST['no']) && !empty($_POST['idpuk']) && !empty($_POST['idpen']) && !empty($_POST['jum']) && !empty($_POST['harj'])) {
+		$tambah = $pen->createPenjualan($_POST['no'], $_POST['idpuk'], $_POST['idpen'], $_POST['jum'], $_POST['harj']);
+	}
+}
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -66,39 +81,38 @@
 
 	<div class="row">
 		<div class="col-lg-12">
-			<h1 class="page-header">Tambah Penjualan</h1>
+			<h1 class="page-header">Tambah Data Penjualan</h1>
 		</div>
 	</div><!--/.row-->
 
 	<div class="panel-body">
 		<div class="col-xs-pull-0">
-			<form role="form">
+			<form role="form" action="tapenjualan.php" method="post">
 				<div class="form-group">
-					<label>No. Penjualan</label>
-					<input class="form-control" >
+					<label>No. Penjual</label>
+					<input class="form-control" type="text" name="no">
 				</div>
 				<div class="form-group">
 					<label>Id Pupuk</label>
-					<input class="form-control" >
+					<input class="form-control" type="text" name="idpuk">
 				</div>
 				<div class="form-group">
 					<label>Id Penjual</label>
-					<input class="form-control" >
+					<input class="form-control" type="text" name="idpen">
 				</div>
 				<div class="form-group">
 					<label>Jumlah</label>
-					<input class="form-control" >
+					<input class="form-control" type="text" name="jum">
 				</div>
 				<div class="form-group">
 					<label>Harga</label>
-					<input class="form-control" >
+					<input class="form-control" type="text" name="harj">
 				</div>
+				<button type="submit" name="kirim" class="btn btn-primary">Submit</button>
+				<button type="reset" class="btn btn-default">Reset</button>
 			</form>
 		</div>
 	</div>
-
-		<button type="submit" class="btn btn-primary">Submit</button>
-		<button type="reset" class="btn btn-default">Reset</button>
 
 	</div><!--/.main-->
 

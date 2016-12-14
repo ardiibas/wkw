@@ -16,6 +16,13 @@ ON sp.id_supplier = p.id_supplier";
       return $this->db->getRows($query);
     }
 
+    public function readPembelian($id)
+		{
+      $query = "SELECT dp.no_pembelian, pk.merk as pupuk, sp.nama as supplier, dp.jumlah, dp.harga_beli FROM detail_pembelian dp JOIN pupuk pk ON dp.id_pupuk = pk.id_pupuk JOIN pembelian p ON p.id_pembelian = dp.id_pembelian JOIN suppliers sp
+ON sp.id_supplier = p.id_supplier where no_pembelian=".$id;
+			return $this->db->getRows($query);
+		}
+
     public function createPembelian($no_pembelian, $id_pupuk, $id_pembelian, $jumlah, $harga_beli)
 		{
 			$query = "insert into detail_pembelian (no_pembelian, id_pupuk, id_pembelian, jumlah, harga_beli)

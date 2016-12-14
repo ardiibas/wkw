@@ -1,15 +1,14 @@
 <?php
 
 require_once('lib/DBPupuk.php');
-require_once('lib/db_pegawai.php');
+require_once('lib/db_pembeli.php');
 
-$peg = new Pegawai();
+$pem = new Pembeli();
 
-if (isset($_POST['kirim'])) {
-	if (!empty($_POST['no']) && !empty($_POST['nama']) && !empty($_POST['alamat']) && !empty($_POST['nohp']) && !empty($_POST['jk'])) {
-		$tambah = $peg->createPegawai($_POST['no'], $_POST['nama'], $_POST['alamat'], $_POST['nohp'], $_POST['jk']);
-	}
-}
+$id = $_GET['a'];
+$data = $pem->readPembelian($id);
+
+$dt = $data[0];
 
 ?>
 
@@ -69,9 +68,9 @@ if (isset($_POST['kirim'])) {
 			</div>
 		</form>
 		<ul class="nav menu">
-			<li><a href="index.php"><svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg>Pembelian</a></li>
+			<li class="active"><a href="index.php"><svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg>Pembelian</a></li>
 			<li><a href="apenjualan.php"><svg class="glyph stroked basket "><use xlink:href="#stroked-basket"/></svg>Penjualan</a></li>
-			<li class="active"><a href="pegawai.php"><svg class="glyph stroked male user "><use xlink:href="#stroked-male-user"/></svg>Pegawai</a></li>
+			<li><a href="pegawai.php"><svg class="glyph stroked male user "><use xlink:href="#stroked-male-user"/></svg>Pegawai</a></li>
 			<li><a href="pupuk.php"><svg class="glyph stroked calendar blank"><use xlink:href="#stroked-calendar-blank"/></svg>Pupuk</a></li>
 			<li role="presentation" class="divider"></li>
 			<li><a href="lol.php"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Login Page</a></li>
@@ -81,32 +80,32 @@ if (isset($_POST['kirim'])) {
 
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Tambah Data Pegawai</h1>
+				<h1 class="page-header">Edit Data Pembelian</h1>
 			</div>
 		</div><!--/.row-->
 
 		<div class="panel-body">
 			<div class="col-xs-pull-0">
-				<form role="form" action="tpegawai.php" method="post">
+				<form role="form" action="uapembelian.php?a=<?php echo $id?>" method="post">
 					<div class="form-group">
-						<label>Id Pegawai</label>
-						<input class="form-control" type="text" name="no">
+						<label>No. Pembelian</label>
+						<input class="form-control" type="text" value="<?php echo $dt['no_pembelian']?>" name="no" readonly="true">
 					</div>
 					<div class="form-group">
-						<label>Nama</label>
-						<input class="form-control"  type="text" name="nama">
+						<label>Merek</label>
+						<input class="form-control" type="text" value="<?php echo $dt['pupuk']?>" name="idpuk">
 					</div>
 					<div class="form-group">
-						<label>Alamat</label>
-						<input class="form-control"  type="text" name="alamat">
+						<label>Nama Supplier</label>
+						<input class="form-control" type="text" value="<?php echo $dt['supplier']?>" name="idpem">
 					</div>
 					<div class="form-group">
-						<label>No. Telp</label>
-						<input class="form-control"  type="text" name="nohp">
+						<label>Jumlah</label>
+						<input class="form-control" type="text" value="<?php echo $dt['jumlah']?>" name="jum">
 					</div>
 					<div class="form-group">
-						<label>Jenis Kelamin</label>
-						<input class="form-control"  type="text" name="jk">
+						<label>Harga</label>
+						<input class="form-control" type="text" value="<?php echo $dt['harga_beli']?>" name="harb">
 					</div>
 					<button type="submit" name="kirim" class="btn btn-primary">Submit</button>
 					<button type="reset" class="btn btn-default">Reset</button>

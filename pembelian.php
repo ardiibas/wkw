@@ -74,7 +74,7 @@
 
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Pembelian</h1>
+				<h1 class="page-header">Data Pembelian</h1>
 			</div>
 		</div><!--/.row-->
 
@@ -83,8 +83,8 @@
 				<thead>
 					<tr>
 						<th>No. Pembelian</th>
-						<th>Id Pupuk</th>
-						<th>Id Pembeli</th>
+						<th>Merek</th>
+						<th>Nama Supplier</th>
 						<th>Jumlah</th>
 						<th>Harga</th>
 						<th class="text-center">Action</th>
@@ -93,8 +93,8 @@
 				<?php foreach ($data as $a):?>
 					<tr>
 						<td><?php echo $a['no_pembelian'] ?></td>
-						<td><?php echo $a['id_pupuk'] ?></td>
-						<td><?php echo $a['id_pembelian'] ?></td>
+						<td><?php echo $a['pupuk'] ?></td>
+						<td><?php echo $a['supplier'] ?></td>
 						<td><?php echo $a['jumlah'] ?></td>
 						<td><?php echo $a['harga_beli'] ?></td>
 						<td class="text-center"><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
