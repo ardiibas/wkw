@@ -1,12 +1,21 @@
 <?php
 
-require_once('lib/DBPupuk.php');
+session_start();
+if (!isset($_SESSION['id']) && empty($_SESSION['id'])) {
+  header('location:lol.php');
+} require_once('lib/DBPupuk.php');
 require_once('lib/db_pembeli.php');
 
 $pem = new Pembeli();
 
-$id = $_GET['a'];
+$id = $_GET['id'];
 $data = $pem->readPembelian($id);
+
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+	// print_r($_POST);exit;
+	$pem->updatePembelian($id, $_POST['idpuk'], $_POST['idpem'], $_POST['jum'], $_POST['harb']);
+	header('location:uapembelian.php?id='.$id);
+}
 
 $dt = $data[0];
 
@@ -42,9 +51,9 @@ $dt = $data[0];
 					<li class="dropdown pull-right">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> User <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
-							<li><a href="#"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Profile</a></li>
-							<li><a href="#"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"></use></svg> Settings</a></li>
-							<li><a href="#"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
+							
+							
+							<li><a href="logout.php"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -86,18 +95,18 @@ $dt = $data[0];
 
 		<div class="panel-body">
 			<div class="col-xs-pull-0">
-				<form role="form" action="uapembelian.php?a=<?php echo $id?>" method="post">
+				<form role="form" action="uapembelian.php?id=<?php echo $id?>" method="post">
 					<div class="form-group">
 						<label>No. Pembelian</label>
 						<input class="form-control" type="text" value="<?php echo $dt['no_pembelian']?>" name="no" readonly="true">
 					</div>
 					<div class="form-group">
 						<label>Merek</label>
-						<input class="form-control" type="text" value="<?php echo $dt['pupuk']?>" name="idpuk">
+						<input class="form-control" type="text" value="<?php echo $dt['id_pupuk']?>" name="idpuk" readonly="true">
 					</div>
 					<div class="form-group">
 						<label>Nama Supplier</label>
-						<input class="form-control" type="text" value="<?php echo $dt['supplier']?>" name="idpem">
+						<input class="form-control" type="text" value="<?php echo $dt['id_pembelian']?>" name="idpem" readonly="true">
 					</div>
 					<div class="form-group">
 						<label>Jumlah</label>

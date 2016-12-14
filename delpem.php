@@ -1,6 +1,9 @@
 <?php
 
-	require_once('lib/DBPupuk.php');
+	session_start();
+if (!isset($_SESSION['id']) && empty($_SESSION['id'])) {
+  header('location:lol.php');
+} require_once('lib/DBPupuk.php');
 	require_once('lib/db_pembeli.php');
 
 	$id = $_GET['no_pembelian'];

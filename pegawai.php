@@ -1,7 +1,16 @@
 <?php
 
-	include('lib/DBPupuk.php');
-	include('lib/db_pegawai.php');
+	session_start();
+if (!isset($_SESSION['id']) && empty($_SESSION['id'])) {
+  header('location:lol.php');
+}
+
+if (isset($_SESSION['level']) && $_SESSION['level'] != 'admin') {
+	header('location:pembelian.php');
+}
+
+require_once('lib/DBPupuk.php');
+	require_once('lib/db_pegawai.php');
 
 	$peg = new Pegawai();
 	$data = $peg->readAllPegawai();
@@ -38,9 +47,9 @@
 					<li class="dropdown pull-right">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> User <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
-							<li><a href="#"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Profile</a></li>
-							<li><a href="#"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"></use></svg> Settings</a></li>
-							<li><a href="#"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
+							
+							
+							<li><a href="logout.php"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -99,7 +108,7 @@
 						<td><?php echo $a['alamat'] ?></td>
 						<td><?php echo $a['telp'] ?></td>
 						<td><?php echo $a['gender'] ?></td>
-						<td class="text-center"><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
+						<td class="text-center"><a class='btn btn-info btn-xs' href="upegawai.php?id=<?php echo $a['id_pegawai']?>"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="dpegawai.php?id=<?php echo $a['id_pegawai']?>" class="btn btn-danger btn-xs" onclick="if(confirm('peesan')) window.location=this.href;return false;"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
 					</tr>
 				<?php endforeach ?>
 			</table>

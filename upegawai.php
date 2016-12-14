@@ -1,19 +1,23 @@
 <?php
 
-	session_start();
+session_start();
 if (!isset($_SESSION['id']) && empty($_SESSION['id'])) {
   header('location:lol.php');
+} require_once('lib/DBPupuk.php');
+require_once('lib/db_pegawai.php');
+
+$peg = new Pegawai();
+
+$id = $_GET['id'];
+$data = $peg->readPegawai($id);
+
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+	// print_r($_POST);exit;
+	$peg->updatePegawai($id,$_POST['nama'], $_POST['alamat'], $_POST['nohp'], $_POST['jk']);
+	header('location:pegawai.php');
 }
 
-if (isset($_SESSION['level']) && $_SESSION['level'] != 'admin') {
-	header('location:pembelian.php');
-}
-
-require_once('lib/DBPupuk.php');
-	require_once('lib/db_penjual.php');
-
-	$pen = new Penjual();
-	$data = $pen->readAllPenjualan();
+$dt = $data[0];
 
 ?>
 
@@ -47,8 +51,8 @@ require_once('lib/DBPupuk.php');
 					<li class="dropdown pull-right">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> User <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
-
-
+							
+							
 							<li><a href="logout.php"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
 						</ul>
 					</li>
@@ -58,23 +62,6 @@ require_once('lib/DBPupuk.php');
 		</div><!-- /.container-fluid -->
 	</nav>
 
-	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
-		<form role="search">
-			<div class="form-group">
-				<input type="text" class="form-control" placeholder="Search">
-			</div>
-		</form>
-		<ul class="nav menu">
-			<li><a href="index.php"><svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg>Pembelian</a></li>
-			<li class="active"><a href="apenjualan.php"><svg class="glyph stroked basket "><use xlink:href="#stroked-basket"/></svg>Penjualan</a></li>
-			<li><a href="pegawai.php"><svg class="glyph stroked male user "><use xlink:href="#stroked-male-user"/></svg>Pegawai</a></li>
-			<li><a href="pupuk.php"><svg class="glyph stroked calendar blank"><use xlink:href="#stroked-calendar-blank"/></svg>Pupuk</a></li>
-			<li role="presentation" class="divider"></li>
-			<li><a href="lol.php"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Login Page</a></li>
-		</ul>
-
-	</div><!--/.sidebar-->
-
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 		<div class="row">
 			<ol class="breadcrumb">
@@ -83,38 +70,57 @@ require_once('lib/DBPupuk.php');
 			</ol>
 		</div><!--/.row-->
 
+			<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+		<form role="search">
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Search">
+			</div>
+		</form>
+		<ul class="nav menu">
+			<li><a href="index.php"><svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg>Pembelian</a></li>
+			<li><a href="apenjualan.php"><svg class="glyph stroked basket "><use xlink:href="#stroked-basket"/></svg>Penjualan</a></li>
+			<li class="active"><a href="pegawai.php"><svg class="glyph stroked male user "><use xlink:href="#stroked-male-user"/></svg>Pegawai</a></li>
+			<li><a href="pupuk.php"><svg class="glyph stroked calendar blank"><use xlink:href="#stroked-calendar-blank"/></svg>Pupuk</a></li>
+			<li role="presentation" class="divider"></li>
+			<li><a href="lol.php"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Login Page</a></li>
+		</ul>
+
+	</div><!--/.sidebar-->
+
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Data Penjualan</h1>
+				<h1 class="page-header">Tambah Data Pegawai</h1>
 			</div>
 		</div><!--/.row-->
 
-		<div class="table">
-			<table class="table table-striped custab">
-				<thead>
-					<tr>
-						<th>No. Penjualan</th>
-						<th>Merek</th>
-						<th>Nama Pembeli</th>
-						<th>Jumlah</th>
-						<th>Harga</th>
-						<th class="text-center">Action</th>
-					</tr>
-					<?php foreach ($data as $a):?>
-						<tr>
-							<td><?php echo $a['no_penjualan'] ?></td>
-							<td><?php echo $a['pupuk'] ?></td>
-							<td><?php echo $a['pembeli'] ?></td>
-							<td><?php echo $a['jumlah'] ?></td>
-							<td><?php echo $a['harga_jual'] ?></td>
-							<td class="text-center"><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
-						</tr>
-					<?php endforeach ?>
-				</thead>
-			</table>
+		<div class="panel-body">
+			<div class="col-xs-pull-0">
+				<form role="form" action="upegawai.php?id=<?php echo $id?>" method="post">
+					<div class="form-group">
+						<label>Id Pegawai</label>
+						<input class="form-control" type="text" value="<?php echo $dt['id_pegawai']?>" name="no" readonly="true">
+					</div>
+					<div class="form-group">
+						<label>Nama</label>
+						<input class="form-control"  type="text" value="<?php echo $dt['nama']?>" name="nama">
+					</div>
+					<div class="form-group">
+						<label>Alamat</label>
+						<input class="form-control"  type="text" value="<?php echo $dt['alamat']?>" name="alamat">
+					</div>
+					<div class="form-group">
+						<label>No. Telp</label>
+						<input class="form-control"  type="text" value="<?php echo $dt['telp']?>" name="nohp">
+					</div>
+					<div class="form-group">
+						<label>Jenis Kelamin</label>
+						<input class="form-control"  type="text" value="<?php echo $dt['gender']?>" name="jk">
+					</div>
+					<button type="submit" name="kirim" class="btn btn-primary">Submit</button>
+					<button type="reset" class="btn btn-default">Reset</button>
+				</form>
+			</div>
 		</div>
-
-		<a href="tapenjualan.php"><button class="btn btn-primary">Tambah Data</button></a>
 
 	</div><!--/.main-->
 
